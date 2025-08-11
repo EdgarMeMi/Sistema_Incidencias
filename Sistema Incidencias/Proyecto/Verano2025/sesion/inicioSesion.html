@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión | Sistema</title>
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #4361ee;
+      --primary-dark: #3a56e4;
+      --secondary-color: #f72585;
+      --light-bg: #f8f9fa;
+      --dark-text: #212529;
+      --light-text: #6c757d;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4ecfb 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-container {
+      display: flex;
+      max-width: 900px;
+      width: 100%;
+      background: #fff;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+
+    .left-panel {
+      flex: 1;
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      color: white;
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .logo i {
+      font-size: 36px;
+    }
+
+    .left-panel h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .left-panel p {
+      font-size: 16px;
+      font-weight: 300;
+      opacity: 0.9;
+      max-width: 320px;
+    }
+
+    .right-panel {
+      flex: 1;
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .form-header {
+      margin-bottom: 35px;
+      text-align: center;
+    }
+
+    .form-header h2 {
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--dark-text);
+      margin-bottom: 8px;
+    }
+
+    .form-header p {
+      color: var(--light-text);
+      font-size: 15px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .form-group i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--light-text);
+      font-size: 18px;
+      transition: var(--transition);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: 1px solid #e1e5eb;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: var(--transition);
+      background-color: #f8fafc;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    }
+
+    .form-group input:focus + i {
+      color: var(--primary-color);
+    }
+
+    .btn-login {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+      margin-top: 10px;
+      display: block;
+      margin: 20px auto;
+    }
+
+    .btn-login:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .error {
+      color: #e63946;
+      font-size: 14px;
+      margin-top: 8px;
+      text-align: center;
+      padding: 10px;
+      background: rgba(230, 57, 70, 0.08);
+      border-radius: 6px;
+      display: none;
+    }
+
+    .error.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .footer-links a {
+      color: var(--primary-color);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #e1e5eb;
+    }
+
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .login-container {
+        flex-direction: column;
+        max-width: 500px;
+      }
+
+      .left-panel {
+        padding: 30px;
+      }
+
+      .right-panel {
+        padding: 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <div class="left-panel">
+    <div class="logo">
+      <i class="fas fa-lock"></i>
+    </div>
+    <h1>Bienvenido al Sistema</h1>
+    <p>Accede a tu cuenta para gestionar todas tus operaciones de forma segura y eficiente.</p>
+  </div>
+
+  <div class="right-panel">
+    <div class="form-header">
+      <h2>Iniciar Sesión</h2>
+      <p>Ingresa tus credenciales para acceder al sistema</p>
+    </div>
+
+    <form id="loginForm" action="login.php" method="POST">
+      <div class="form-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="usuario" name="usuario" placeholder="Usuario" maxlength="13" required>
+      </div>
+
+      <div class="form-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="contrasena" name="contrasena" placeholder="Contraseña" required>
+      </div>
+
+      <button type="submit" class="btn-login">Iniciar Sesión</button>
+      <div id="errorMsg" class="error"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // 1) Validación de campos antes de enviar
+  const form = document.getElementById('loginForm');
+  const errorMsg = document.getElementById('errorMsg');
+
+  form.addEventListener('submit', function(e) {
+    const u = document.getElementById('usuario').value.trim();
+    const p = document.getElementById('contrasena').value.trim();
+
+    // Reset error message
+    errorMsg.classList.remove('show');
+    errorMsg.textContent = '';
+
+    if (!u || !p) {
+      e.preventDefault();
+      errorMsg.textContent = 'Por favor, llena todos los campos.';
+      errorMsg.classList.add('show');
+      return;
+    }
+
+    if (!/^[A-Za-z0-9]+$/.test(u)) {
+      e.preventDefault();
+      errorMsg.textContent = 'El usuario solo debe contener letras y números.';
+      errorMsg.classList.add('show');
+    }
+  });
+
+  // 2) SweetAlert2 al detectar ?mensaje= en la URL
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('mensaje')) {
+      const texto = decodeURIComponent(params.get('mensaje').replace(/\+/g, ' '));
+      Swal.fire({
+        icon: 'warning',
+        title: 'Atención',
+        text: texto,
+        confirmButtonText: 'Ok',
+        customClass: {
+          popup: 'animated fadeInDown'
+        }
+      });
+    }
+  });
+</script>
+</body>
+</html>
